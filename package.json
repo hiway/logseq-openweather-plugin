@@ -1,6 +1,6 @@
 {
     "name": "logseq-openweather-plugin",
-    "version": "v0.1.0",
+    "version": "v0.2.0",
     "description": "Logseq plugin to access weather data from OpenWeather API",
     "author": "hiway",
     "license": "MIT",
