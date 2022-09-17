@@ -1,4 +1,4 @@
-# logseq-plugin-openweather
+# logseq-openweather-plugin
 
 Logseq plugin to access weather data from OpenWeather API
 
@@ -7,8 +7,8 @@ Logseq plugin to access weather data from OpenWeather API
 ### Install
 
 ```console
-git pull https://github.com/hiway/logseq-plugin-openweather.git
-logseq-plugin-openweather
+git pull https://github.com/hiway/logseq-openweather-plugin.git
+logseq-openweather-plugin
 yarn
 yarn build
 ```
