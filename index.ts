@@ -129,7 +129,7 @@ async function weather_as_description() {
     let w = await fetch_current_weather(city, units)
     var wind_speed = w.wind.speed
     if (units == "metric") {
-        wind_speed = w.wind.speed * 3.6
+        wind_speed = (w.wind.speed * 3.6).toFixed(2)
     }
 
     let weather_status = `#Weather at #[[${city}]]: \
