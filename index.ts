@@ -30,6 +30,24 @@ function main() {
     logseq.useSettingsSchema(settingsSchema);
 
     logseq.Editor.registerSlashCommand(
+        'OpenWeather',
+        async () => {
+            await logseq.Editor.insertAtEditingCursor("OpenWeather")
+        },
+    )
+    logseq.Editor.registerSlashCommand(
+        'OpenWeatherShort',
+        async () => {
+            await logseq.Editor.insertAtEditingCursor("OpenWeatherShort")
+        },
+    )
+    logseq.Editor.registerSlashCommand(
+        'OpenWeatherLong',
+        async () => {
+            await logseq.Editor.insertAtEditingCursor("OpenWeatherLong")
+        },
+    )
+    logseq.Editor.registerSlashCommand(
         'OpenWeatherDescribe',
         async () => {
             await logseq.Editor.insertAtEditingCursor("OpenWeatherDescribe")
