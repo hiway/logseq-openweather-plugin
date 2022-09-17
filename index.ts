@@ -76,6 +76,35 @@ function settings_are_valid() {
     return true
 }
 
+async function fetch_current_weather(city, units) {
+    const api_key = logseq.settings!["openWeatherAPIKey"]
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${api_key}`
+    return await fetch(url).then(r => r.json())
+}
+
+async function weather_as_properties() {
+    const city = logseq.settings!["openWeatherCity"]
+    const units = logseq.settings!["openWeatherUnits"]
+    let w = await fetch_current_weather(city, units)
+    let weather_status = `description:: ${w.weather[0].description} \n\
+temperature:: ${w.main.temp} ${weatherUnits[units]["temperature"]} \n\
+wind_speed:: ${w.wind.speed} ${weatherUnits[units]["speed"]} \n\
+cloud_cover:: ${w.clouds.all}%`
+    return weather_status
+}
+
+async function weather_as_description() {
+    const city = logseq.settings!["openWeatherCity"]
+    const units = logseq.settings!["openWeatherUnits"]
+    let w = await fetch_current_weather(city, units)
+    let weather_status = `#Weather for #[[${city}]]: \
+${w.weather[0].description}, \
+${w.main.temp} ${weatherUnits[units]["temperature"]}, \
+${w.wind.speed} ${weatherUnits[units]["speed"]} wind, \
+${w.clouds.all}% cloud cover`
+    return weather_status
+}
+
 function main() {
     logseq.useSettingsSchema(settingsSchema);
 
@@ -85,7 +114,8 @@ function main() {
             if (!settings_are_valid()) {
                 return
             }
-            await logseq.Editor.insertAtEditingCursor("Describes current weather in a single line.")
+            let weather_status = await weather_as_description()
+            await logseq.Editor.insertAtEditingCursor(weather_status)
         },
     )
     logseq.Editor.registerSlashCommand(
@@ -94,7 +124,8 @@ function main() {
             if (!settings_are_valid()) {
                 return
             }
-            await logseq.Editor.insertAtEditingCursor("Adds current weather as properties.")
+            let weather_status = await weather_as_properties()
+            await logseq.Editor.insertAtEditingCursor(weather_status)
         },
     )
 
