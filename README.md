@@ -32,14 +32,7 @@ Kodaikanal,IN
 
 #### Units
 
-Units of measurement (standard / metric / imperial).
-
-#### standard
-
-- temperature: °K
-- pressure: hPa
-- distance: meters
-- speed: meters/second
+Units of measurement (metric / imperial).
 
 #### metric
 
@@ -54,7 +47,7 @@ Units of measurement (standard / metric / imperial).
 
 - temperature: °F
 - pressure: hPa
-- distance: meters
+- distance: miles
 - speed: miles/hour
 
 #### OpenWeather API Key
@@ -70,13 +63,31 @@ OpenWeather API requires you to register to get an API key, this key is required
 
 ### Commands
 
+#### `/OpenWeather`
+
+```
+☁️ 13.53 °C
+```
+
+#### `/OpenWeatherShort`
+
+```
+☁️ Clouds, 13.53 °C
+```
+
+#### `/OpenWeatherLong`
+
+```
+☁️ Overcast clouds, 🌡 13.53 °C, 💧 84%, 💨 4.25 km/h
+```
+
 #### `/OpenWeatherDescribe`
 
 Describes current weather in a single line.
 
 Example: 
 ```
-#Weather at #[[Kodaikanal,IN]]: Clouds (overcast clouds), temperature is 16.05 °C, wind speed is 3.20 km/h, and clouds cover 100% of the sky.
+#Weather at #[[Kodaikanal,IN]]: Overcast clouds with temperature at 13.53 °C, humidity is 84% and wind speed is 4.25 km/h.
 ```
 
 #### `/OpenWeatherProperties`
@@ -85,17 +96,23 @@ Adds current weather data as properties.
 
 Example:
 ```
-#Weather at #[[Kodaikanal,IN]]: Clouds
-description:: overcast clouds
-temperature:: 16.05 °C
-feels_like:: 15.8 °C
-humidity:: 80%
-pressure:: 1010 hPa
-wind_speed:: 3.20 km/h
-wind_gust:: 9.50 km/h
-wind_direction:: 49°
-visibility:: 10.00 km
-cloud_cover:: 100%
+#Weather at #[[Kodaikanal,IN]]: Overcast clouds 
+icon:: ☁️ 
+status:: Clouds 
+description:: Overcast clouds 
+temperature:: 13.53 
+feels_like:: 13.13 
+humidity:: 84 
+pressure:: 1012 
+wind_speed:: 4.25 
+wind_gust:: 4.82 
+wind_direction:: 284 
+visibility:: 10.00 
+cloud_cover:: 100 
+unit_temperature:: °C 
+unit_distance:: km 
+unit_speed:: km/h 
+unit_pressure:: hPa 
 ```
 
 ### Discussion
