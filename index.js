@@ -1,4 +1,32 @@
+const settingsSchema = [
+    {
+        key: "openWeatherCity",
+        type: "string",
+        default: "Kodaikanal,IN",
+        title: "OpenWeather City",
+        description: "Name of your city followed by comma and two-letter country code.",
+    },
+    {
+        key: "openWeatherUnits",
+        type: "string",
+        default: "metric",
+        title: "OpenWeather Units of measurement",
+        description: "Choose between: standard (°K), metric (°C), imperial (°F)",
+    },
+    {
+        key: "openWeatherAPIKey",
+        type: "string",
+        default: "",
+        title: "OpenWeather API Key",
+        description:
+            "Get yours at https://home.openweathermap.org/api_keys",
+    },
+]
+
+
 function main() {
+    logseq.useSettingsSchema(settingsSchema);
+
     logseq.Editor.registerSlashCommand(
         'OpenWeatherDescribe',
         async () => {
