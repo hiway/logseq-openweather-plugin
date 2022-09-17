@@ -102,7 +102,7 @@ sea_level:: ${w.main.sea_level} ${up}\n\
 ground_level:: ${w.main.grnd_level} ${up}\n\
 wind_speed:: ${w.wind.speed} ${us}\n\
 wind_gust:: ${w.wind.gust} ${us}\n\
-wind_direction:: ${w.wind.deg} °\n\
+wind_direction:: ${w.wind.deg}°\n\
 visibility:: ${w.visibility} ${ud}\n\
 cloud_cover:: ${w.clouds.all}%\n\
 `
