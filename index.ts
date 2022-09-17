@@ -100,6 +100,8 @@ async function fetch_current_weather() {
 
     if (units == "metric") {
         weather = {
+            city: city,
+            units: units,
             icon: icon_from_status(w.weather[0].main),
             status: w.weather[0].main,
             description: capitalize_first_word(w.weather[0].description),
@@ -119,6 +121,8 @@ async function fetch_current_weather() {
         }
     } else {
         weather = {
+            city: city,
+            units: units,
             icon: icon_from_status(w.weather[0].main),
             status: w.weather[0].main,
             description: capitalize_first_word(w.weather[0].description),
@@ -175,7 +179,11 @@ function main() {
         async () => {
             if (settings_are_valid()) {
                 const w = await fetch_current_weather()
-                await logseq.Editor.insertAtEditingCursor(`${w["description"]} with temperature at ${w["temperature"]} ${w["unit_temperature"]}, humidity is ${w["humidity"]}% and wind speed is ${w["wind_speed"]} ${w["unit_speed"]}.`)
+                await logseq.Editor.insertAtEditingCursor(`\
+#Weather at #[[${w["city"]}]]: ${w["description"]} \
+with temperature at ${w["temperature"]} ${w["unit_temperature"]}, \
+humidity is ${w["humidity"]}% and \
+wind speed is ${w["wind_speed"]} ${w["unit_speed"]}.`)
             }
         },
     )
@@ -185,7 +193,7 @@ function main() {
             if (settings_are_valid()) {
                 const w = await fetch_current_weather()
                 const properties = `\
-${w["description"]} \n\
+#Weather at #[[${w["city"]}]]: ${w["description"]} \n\
 icon:: ${w["icon"]} \n\
 status:: ${w["status"]} \n\
 description:: ${w["description"]} \n\
