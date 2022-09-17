@@ -6,6 +6,9 @@ Logseq plugin to access weather data from OpenWeather API
 
 ```console
 git pull https://github.com/hiway/logseq-plugin-openweather.git
+logseq-plugin-openweather
+yarn
+yarn build
 ```
 
 Enable developer mode: `Logseq > Settings > Advanced > Developer mode`
