@@ -1,0 +1,13 @@
+{
+    "name": "logseq-openweather-plugin",
+    "version": "v0.1.0",
+    "description": "Logseq plugin to access weather data from OpenWeather API",
+    "author": "Harshad Sharma",
+    "license": "MIT",
+    "main": "index.html",
+    "logseq": {
+        "id": "logseq-openweather-plugin",
+        "title": "OpenWeather",
+        "icon": "./icon.png"
+    }
+}
