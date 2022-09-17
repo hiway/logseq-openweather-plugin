@@ -2,7 +2,7 @@
 
 Logseq plugin to access weather data from OpenWeather API
 
-## Install
+### Install
 
 ```console
 git pull https://github.com/hiway/logseq-plugin-openweather.git
