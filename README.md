@@ -97,3 +97,7 @@ wind_direction:: 49°
 visibility:: 10.00 km
 cloud_cover:: 100%
 ```
+
+### Discussion
+
+https://discuss.logseq.com/t/plugin-to-pull-current-weather-from-openweather-api/10858
