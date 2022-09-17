@@ -28,7 +28,7 @@ const settingsSchema: SettingSchemaDesc[] = [
 
 const weatherUnits = {
     default: { temperature: "°K", distance: "m", speed: "m/s", pressure: "hPa" },
-    metric: { temperature: "°C", distance: "m", speed: "km/h", pressure: "hPa" },
+    metric: { temperature: "°C", distance: "km", speed: "km/h", pressure: "hPa" },
     imperial: { temperature: "°F", distance: "m", speed: "mph", pressure: "hPa" },
 }
 
@@ -93,21 +93,25 @@ async function weather_as_properties() {
     
     let w = await fetch_current_weather(city, units)
     var wind_speed = w.wind.speed
+    var wind_gust = w.wind.gust
+    var visibility = w.visibility
+
     if (units == "metric") {
-        wind_speed = w.wind.speed * 3.6
+        wind_speed = (w.wind.speed * 3.6).toFixed(2)
+        wind_gust = (w.wind.gust * 3.6).toFixed(2)
+        visibility = (w.visibility / 1000).toFixed(2)
     }
 
     let weather_status = `#Weather at #[[${city}]]: ${w.weather[0].main}\n\
 description:: ${w.weather[0].description}\n\
 temperature:: ${w.main.temp} ${ut}\n\
 feels_like:: ${w.main.feels_like} ${ut}\n\
-temperature:: ${w.main.humidity}%\n\
-sea_level:: ${w.main.sea_level} ${up}\n\
-ground_level:: ${w.main.grnd_level} ${up}\n\
+humidity:: ${w.main.humidity}%\n\
+pressure:: ${w.main.pressure} ${up}\n\
 wind_speed:: ${wind_speed} ${us}\n\
-wind_gust:: ${w.wind.gust} ${us}\n\
+wind_gust:: ${wind_gust} ${us}\n\
 wind_direction:: ${w.wind.deg}°\n\
-visibility:: ${w.visibility} ${ud}\n\
+visibility:: ${visibility} ${ud}\n\
 cloud_cover:: ${w.clouds.all}%\n\
 `
     return weather_status
