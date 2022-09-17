@@ -28,7 +28,7 @@ const settingsSchema: SettingSchemaDesc[] = [
 
 const weatherUnits = {
     default: { temperature: "°K", distance: "m", speed: "m/s", pressure: "hPa" },
-    metric: { temperature: "°C", distance: "m", speed: "m/s", pressure: "hPa" },
+    metric: { temperature: "°C", distance: "m", speed: "km/h", pressure: "hPa" },
     imperial: { temperature: "°F", distance: "m", speed: "mph", pressure: "hPa" },
 }
 
@@ -92,6 +92,10 @@ async function weather_as_properties() {
     const ut = weatherUnits[units]["temperature"]
     
     let w = await fetch_current_weather(city, units)
+    var wind_speed = w.wind.speed
+    if (units == "metric") {
+        wind_speed = w.wind.speed * 3.6
+    }
 
     let weather_status = `#Weather at #[[${city}]]: ${w.weather[0].main}\n\
 description:: ${w.weather[0].description}\n\
@@ -100,7 +104,7 @@ feels_like:: ${w.main.feels_like} ${ut}\n\
 temperature:: ${w.main.humidity}%\n\
 sea_level:: ${w.main.sea_level} ${up}\n\
 ground_level:: ${w.main.grnd_level} ${up}\n\
-wind_speed:: ${w.wind.speed} ${us}\n\
+wind_speed:: ${wind_speed} ${us}\n\
 wind_gust:: ${w.wind.gust} ${us}\n\
 wind_direction:: ${w.wind.deg}°\n\
 visibility:: ${w.visibility} ${ud}\n\
@@ -119,10 +123,15 @@ async function weather_as_description() {
     const ut = weatherUnits[units]["temperature"]
 
     let w = await fetch_current_weather(city, units)
+    var wind_speed = w.wind.speed
+    if (units == "metric") {
+        wind_speed = w.wind.speed * 3.6
+    }
+
     let weather_status = `#Weather at #[[${city}]]: \
 ${w.weather[0].main} (${w.weather[0].description}), \
 temperature is ${w.main.temp} ${ut}, \
-wind speed is ${w.wind.speed} ${us}, \
+wind speed is ${wind_speed} ${us}, \
 and clouds cover ${w.clouds.all}% of the sky.`
     return weather_status
 }
