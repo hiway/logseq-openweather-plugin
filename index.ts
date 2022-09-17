@@ -7,14 +7,14 @@ const settingsSchema: SettingSchemaDesc[] = [
         type: "string",
         default: "Kodaikanal,IN",
         title: "OpenWeather City",
-        description: "Name of your city followed by comma and two-letter country code.",
+        description: "Name of city followed by comma and two-letter country code. Example: Kodaikanal,IN",
     },
     {
         key: "openWeatherUnits",
         type: "string",
         default: "metric",
         title: "OpenWeather Units of measurement",
-        description: "Choose between: standard (°K), metric (°C), imperial (°F)",
+        description: "Choose between: standard (°K), metric (°C), imperial (°F). Example: metric",
     },
     {
         key: "openWeatherAPIKey",
@@ -85,23 +85,45 @@ async function fetch_current_weather(city, units) {
 async function weather_as_properties() {
     const city = logseq.settings!["openWeatherCity"]
     const units = logseq.settings!["openWeatherUnits"]
+
+    const ud = weatherUnits[units]["distance"]
+    const up = weatherUnits[units]["pressure"]
+    const us = weatherUnits[units]["speed"]
+    const ut = weatherUnits[units]["temperature"]
+    
     let w = await fetch_current_weather(city, units)
-    let weather_status = `description:: ${w.weather[0].description} \n\
-temperature:: ${w.main.temp} ${weatherUnits[units]["temperature"]} \n\
-wind_speed:: ${w.wind.speed} ${weatherUnits[units]["speed"]} \n\
-cloud_cover:: ${w.clouds.all}%`
+
+    let weather_status = `#Weather at #[[${city}]]: ${w.weather[0].main}\n\
+description:: ${w.weather[0].description}\n\
+temperature:: ${w.main.temp} ${ut}\n\
+feels_like:: ${w.main.feels_like} ${ut}\n\
+temperature:: ${w.main.humidity}%\n\
+sea_level:: ${w.main.sea_level} ${up}\n\
+ground_level:: ${w.main.grnd_level} ${up}\n\
+wind_speed:: ${w.wind.speed} ${us}\n\
+wind_gust:: ${w.wind.gust} ${us}\n\
+wind_direction:: ${w.wind.deg} °\n\
+visibility:: ${w.visibility} ${ud}\n\
+cloud_cover:: ${w.clouds.all}%\n\
+`
     return weather_status
 }
 
 async function weather_as_description() {
     const city = logseq.settings!["openWeatherCity"]
     const units = logseq.settings!["openWeatherUnits"]
+
+    const ud = weatherUnits[units]["distance"]
+    const up = weatherUnits[units]["pressure"]
+    const us = weatherUnits[units]["speed"]
+    const ut = weatherUnits[units]["temperature"]
+
     let w = await fetch_current_weather(city, units)
-    let weather_status = `#Weather for #[[${city}]]: \
-${w.weather[0].description}, \
-${w.main.temp} ${weatherUnits[units]["temperature"]}, \
-${w.wind.speed} ${weatherUnits[units]["speed"]} wind, \
-${w.clouds.all}% cloud cover`
+    let weather_status = `#Weather at #[[${city}]]: \
+${w.weather[0].main} (${w.weather[0].description}), \
+temperature is ${w.main.temp} ${ut}, \
+wind speed is ${w.wind.speed} ${us}, \
+and clouds cover ${w.clouds.all}% of the sky.`
     return weather_status
 }
 
