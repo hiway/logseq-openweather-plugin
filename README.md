@@ -18,6 +18,6 @@ Import plugin: `Logseq > Plugins > Load unpacked plugin` and point to the cloned
 
 Describes current weather in a single line.
 
-#### - `/OpenWeatherProperties`
+#### `/OpenWeatherProperties`
 
 Adds current weather data as properties.
