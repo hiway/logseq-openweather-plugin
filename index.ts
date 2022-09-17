@@ -27,7 +27,7 @@ const settingsSchema: SettingSchemaDesc[] = [
 ]
 
 const weatherUnits = {
-    default: { temperature: "°K", distance: "m", speed: "m/s", pressure: "hPa" },
+    standard: { temperature: "°K", distance: "m", speed: "m/s", pressure: "hPa" },
     metric: { temperature: "°C", distance: "km", speed: "km/h", pressure: "hPa" },
     imperial: { temperature: "°F", distance: "m", speed: "mph", pressure: "hPa" },
 }
