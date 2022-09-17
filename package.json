@@ -4,10 +4,23 @@
     "description": "Logseq plugin to access weather data from OpenWeather API",
     "author": "hiway",
     "license": "MIT",
-    "main": "index.html",
+    "main": "dist/index.html",
     "logseq": {
         "id": "logseq-openweather-plugin",
         "title": "OpenWeather",
         "icon": "./icon.png"
+    },
+    "targets": {
+        "main": false
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "parcel build --no-source-maps index.html --public-url ./"
+    },
+    "dependencies": {
+        "@logseq/libs": "0.0.9"
+    },
+    "devDependencies": {
+        "parcel": "^2.0.0"
     }
 }

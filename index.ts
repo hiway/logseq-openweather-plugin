@@ -1,4 +1,7 @@
-const settingsSchema = [
+import '@logseq/libs';
+import { SettingSchemaDesc } from '@logseq/libs/dist/LSPlugin';
+
+const settingsSchema: SettingSchemaDesc[] = [
     {
         key: "openWeatherCity",
         type: "string",
