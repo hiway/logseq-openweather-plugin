@@ -6,15 +6,15 @@ const settingsSchema: SettingSchemaDesc[] = [
         key: "openWeatherCity",
         type: "string",
         default: "Kodaikanal,IN",
-        title: "OpenWeather City",
+        title: "City",
         description: "Name of city followed by comma and two-letter country code. Example: Kodaikanal,IN",
     },
     {
         key: "openWeatherUnits",
         type: "string",
         default: "metric",
-        title: "OpenWeather Units of measurement",
-        description: "Choose between: standard (°K), metric (°C), imperial (°F). Example: metric",
+        title: "Units of measurement",
+        description: "Choose between: metric (°C), imperial (°F). Example: metric",
     },
     {
         key: "openWeatherAPIKey",
@@ -26,141 +26,19 @@ const settingsSchema: SettingSchemaDesc[] = [
     },
 ]
 
-const weatherUnits = {
-    standard: { temperature: "°K", distance: "m", speed: "m/s", pressure: "hPa" },
-    metric: { temperature: "°C", distance: "km", speed: "km/h", pressure: "hPa" },
-    imperial: { temperature: "°F", distance: "m", speed: "mph", pressure: "hPa" },
-}
-
-function settings_are_valid() {
-    const city = logseq.settings!["openWeatherCity"]
-    const units = logseq.settings!["openWeatherUnits"]
-    const api_key = logseq.settings!["openWeatherAPIKey"]
-
-    if (!api_key) {
-        console.error("Need API key set in settings.")
-        logseq.UI.showMsg(
-            "Need OpenWeather API key. Add one in plugin settings.",
-            "error"
-        )
-        return false
-    }
-
-    if (!city) {
-        console.error("City not configured for OpenWeather plugin.")
-        logseq.UI.showMsg(
-            "Configure your city in plugin settings.",
-            "error"
-        )
-        return false
-    }
-
-    if (!units) {
-        console.error("Units of measurement not configured")
-        logseq.UI.showMsg(
-            "Configure units of measurement in plugin settings.",
-            "error"
-        )
-        return false
-    }
-
-    if (!(units in weatherUnits)) {
-        console.error("Units of measurement misconfigured")
-        logseq.UI.showMsg(
-            "Configure units of measurement in plugin settings.",
-            "error"
-        )
-        return false
-    }
-
-    return true
-}
-
-async function fetch_current_weather(city, units) {
-    const api_key = logseq.settings!["openWeatherAPIKey"]
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${api_key}`
-    return await fetch(url).then(r => r.json())
-}
-
-async function weather_as_properties() {
-    const city = logseq.settings!["openWeatherCity"]
-    const units = logseq.settings!["openWeatherUnits"]
-
-    const ud = weatherUnits[units]["distance"]
-    const up = weatherUnits[units]["pressure"]
-    const us = weatherUnits[units]["speed"]
-    const ut = weatherUnits[units]["temperature"]
-    
-    let w = await fetch_current_weather(city, units)
-    var wind_speed = w.wind.speed
-    var wind_gust = w.wind.gust
-    var visibility = w.visibility
-
-    if (units == "metric") {
-        wind_speed = (w.wind.speed * 3.6).toFixed(2)
-        wind_gust = (w.wind.gust * 3.6).toFixed(2)
-        visibility = (w.visibility / 1000).toFixed(2)
-    }
-
-    let weather_status = `#Weather at #[[${city}]]: ${w.weather[0].main}\n\
-description:: ${w.weather[0].description}\n\
-temperature:: ${w.main.temp} ${ut}\n\
-feels_like:: ${w.main.feels_like} ${ut}\n\
-humidity:: ${w.main.humidity}%\n\
-pressure:: ${w.main.pressure} ${up}\n\
-wind_speed:: ${wind_speed} ${us}\n\
-wind_gust:: ${wind_gust} ${us}\n\
-wind_direction:: ${w.wind.deg}°\n\
-visibility:: ${visibility} ${ud}\n\
-cloud_cover:: ${w.clouds.all}%\n\
-`
-    return weather_status
-}
-
-async function weather_as_description() {
-    const city = logseq.settings!["openWeatherCity"]
-    const units = logseq.settings!["openWeatherUnits"]
-
-    const ud = weatherUnits[units]["distance"]
-    const up = weatherUnits[units]["pressure"]
-    const us = weatherUnits[units]["speed"]
-    const ut = weatherUnits[units]["temperature"]
-
-    let w = await fetch_current_weather(city, units)
-    var wind_speed = w.wind.speed
-    if (units == "metric") {
-        wind_speed = (w.wind.speed * 3.6).toFixed(2)
-    }
-
-    let weather_status = `#Weather at #[[${city}]]: \
-${w.weather[0].main} (${w.weather[0].description}), \
-temperature is ${w.main.temp} ${ut}, \
-wind speed is ${wind_speed} ${us}, \
-and clouds cover ${w.clouds.all}% of the sky.`
-    return weather_status
-}
-
 function main() {
     logseq.useSettingsSchema(settingsSchema);
 
     logseq.Editor.registerSlashCommand(
         'OpenWeatherDescribe',
         async () => {
-            if (!settings_are_valid()) {
-                return
-            }
-            let weather_status = await weather_as_description()
-            await logseq.Editor.insertAtEditingCursor(weather_status)
+            await logseq.Editor.insertAtEditingCursor("OpenWeatherDescribe")
         },
     )
     logseq.Editor.registerSlashCommand(
         'OpenWeatherProperties',
         async () => {
-            if (!settings_are_valid()) {
-                return
-            }
-            let weather_status = await weather_as_properties()
-            await logseq.Editor.insertAtEditingCursor(weather_status)
+            await logseq.Editor.insertAtEditingCursor("OpenWeatherProperties")
         },
     )
 
